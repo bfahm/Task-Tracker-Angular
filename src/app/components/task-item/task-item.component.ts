@@ -1,4 +1,4 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { Task } from '../../mock-persistance/task';
 import { faTimes } from '@fortawesome/free-solid-svg-icons';
 
@@ -10,11 +10,16 @@ import { faTimes } from '@fortawesome/free-solid-svg-icons';
 export class TaskItemComponent implements OnInit {
 
   @Input() task: Task | undefined;
+  @Output() onDeleteTask: EventEmitter<Task> = new EventEmitter();
   faTimes = faTimes;
 
   constructor() { }
 
   ngOnInit(): void {
+  }
+
+  onDelete(task: any) {
+    this.onDeleteTask.emit(task);
   }
 
 }
