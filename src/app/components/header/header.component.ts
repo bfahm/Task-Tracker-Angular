@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { Router } from '@angular/router';
 import { Subscription } from 'rxjs';
 import { UiService } from '../../services/ui.service';
 
@@ -12,7 +13,7 @@ export class HeaderComponent implements OnInit {
   showAddTask: boolean = false;
   subscription!: Subscription;
 
-  constructor(private readonly uiService: UiService) {
+  constructor(private readonly uiService: UiService, private readonly router: Router) {
     this.subscription = this.uiService.onToggleAddTask().subscribe(
       (showAddTask: boolean) => {
         console.log(`4. Received an observed update on the header since it's subscribed, the update was: ${showAddTask}.`)
@@ -27,6 +28,10 @@ export class HeaderComponent implements OnInit {
   toggleAddTask(){
     console.log('2. Header component listened to the emit and will notify uiService.')
     this.uiService.toggleAddTask()
+  }
+
+  showButton(){
+    return this.router.url === '/';
   }
 
 }
