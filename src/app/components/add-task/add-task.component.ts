@@ -1,5 +1,7 @@
 import { Component, EventEmitter, OnInit, Output } from '@angular/core';
+import { Subscription } from 'rxjs';
 import { Task } from '../../mock-persistance/task';
+import { UiService } from '../../services/ui.service';
 
 @Component({
   selector: 'app-add-task',
@@ -11,10 +13,17 @@ export class AddTaskComponent implements OnInit {
   text: string = '';
   day: string = '';
   reminder: boolean = false;
+  showAddTasksForm: boolean = false;
+  subscription!: Subscription;
 
   @Output() onAddTask: EventEmitter<Task> = new EventEmitter();
 
-  constructor() { }
+  constructor(
+    private readonly uiService: UiService) {
+        this.subscription = this.uiService.onToggleAddTask().subscribe((showAddTask: boolean) => {
+          this.showAddTasksForm = showAddTask;
+        });
+    }
 
   ngOnInit(): void {
   }

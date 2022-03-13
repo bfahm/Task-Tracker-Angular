@@ -17,6 +17,7 @@ export class ButtonComponent implements OnInit {
   }
 
   onClick(){
+    console.log('1. Emitted that the button was clicked, no other custom logic implemented inside the button component.')
     this.btnClick.emit();
   }
 

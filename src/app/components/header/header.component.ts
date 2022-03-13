@@ -1,4 +1,6 @@
 import { Component, OnInit } from '@angular/core';
+import { Subscription } from 'rxjs';
+import { UiService } from '../../services/ui.service';
 
 @Component({
   selector: 'app-header',
@@ -7,14 +9,24 @@ import { Component, OnInit } from '@angular/core';
 })
 export class HeaderComponent implements OnInit {
   title: string = 'Task Tracker';
+  showAddTask: boolean = false;
+  subscription!: Subscription;
 
-  constructor() { }
+  constructor(private readonly uiService: UiService) {
+    this.subscription = this.uiService.onToggleAddTask().subscribe(
+      (showAddTask: boolean) => {
+        console.log(`4. Received an observed update on the header since it's subscribed, the update was: ${showAddTask}.`)
+        this.showAddTask = showAddTask;
+      }
+    );
+   }
 
   ngOnInit(): void {
   }
 
   toggleAddTask(){
-    console.log('toggle!');
+    console.log('2. Header component listened to the emit and will notify uiService.')
+    this.uiService.toggleAddTask()
   }
 
 }
